@@ -1,48 +1,27 @@
---
--- PostgreSQL database dump
---
+﻿-- Table: toolkit.agg_markets
 
-SET statement_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = off;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-SET escape_string_warning = off;
+-- DROP TABLE toolkit.agg_markets;
 
-SET search_path = toolkit, pg_catalog;
-
-ALTER TABLE ONLY toolkit.agg_markets DROP CONSTRAINT agg_markets_pkey;
-DROP TABLE toolkit.agg_markets;
-SET search_path = toolkit, pg_catalog;
-
-SET default_tablespace = p2_toolkitdata;
-
-SET default_with_oids = false;
-
---
--- Name: agg_markets; Type: TABLE; Schema: toolkit; Owner: -; Tablespace: p2_toolkitdata
---
-
-CREATE TABLE agg_markets (
-    market character varying(30) NOT NULL,
-    bsm_wait_count integer NOT NULL,
-    wait_timeout_seconds integer NOT NULL,
-    processing_order integer DEFAULT 100,
-    logical_market character(1) DEFAULT 'N'::bpchar NOT NULL,
-    agg_data_avail_goal integer,
-    wait_minutes_from_midnight smallint
-);
-
-
---
--- Name: agg_markets_pkey; Type: CONSTRAINT; Schema: toolkit; Owner: -; Tablespace: p2_toolkitdata
---
-
-ALTER TABLE ONLY agg_markets
-    ADD CONSTRAINT agg_markets_pkey PRIMARY KEY (market);
-
-
---
--- PostgreSQL database dump complete
---
-
+CREATE TABLE toolkit.agg_markets
+(
+  market character varying(30) NOT NULL,
+  bsm_wait_count integer NOT NULL,
+  wait_timeout_seconds integer NOT NULL,
+  processing_order integer DEFAULT 100,
+  logical_market character(1) NOT NULL DEFAULT 'N'::bpchar,
+  agg_data_avail_goal integer,
+  wait_minutes_from_midnight smallint,
+  bobs_fake_column character varying,
+  CONSTRAINT agg_markets_pkey PRIMARY KEY (market)
+  USING INDEX TABLESPACE p2_toolkitdata
+)
+WITH (
+  OIDS=FALSE
+)
+TABLESPACE p2_toolkitdata;
+ALTER TABLE toolkit.agg_markets
+  OWNER TO samsung;
+GRANT SELECT ON TABLE toolkit.agg_markets TO samsungreporting;
+GRANT SELECT ON TABLE toolkit.agg_markets TO samsungsu;
+GRANT SELECT ON TABLE toolkit.agg_markets TO samsungtoolkit;
+GRANT ALL ON TABLE toolkit.agg_markets TO samsung;
